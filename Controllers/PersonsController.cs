@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyTimeSheets.Domain.Interfaces;
+using MyTimeSheets.Models;
 using MyTimeSheets.Models.Dto;
 
 namespace MyTimeSheets.Controllers
@@ -21,13 +22,7 @@ namespace MyTimeSheets.Controllers
         {
             _personManager = personManager ;
         }
-        
-        [HttpGet("{id}")]
-        public IActionResult Get([FromQuery] int id)
-        { 
-           var result = _personManager.GetItem(id);
-         return Ok(result);
-        }
+
         
         [HttpGet]
         public IActionResult GetAll()
@@ -35,8 +30,55 @@ namespace MyTimeSheets.Controllers
           var result = _personManager.GetItems();
          return Ok(result);
         }
+                
+        [HttpGet("{id}")]
+        public IActionResult Get([FromQuery] int id)
+        { 
+           var result = _personManager.GetItem(id);
+         return Ok(result);
+        }
+      
+        [HttpGet("from/{fromPage}/to/{toPage}")]
+        public IActionResult GetPages([FromRoute] int fromPage, [FromRoute] int toPage)
+        {
+            var list = new List<Person>();
+            var metrics =   _personManager.GetItems();
 
-         [HttpPost("create")]
+            if ( fromPage > toPage ) 
+                {
+                   int swap  = toPage;
+                      toPage =fromPage;
+                      fromPage = swap;
+                }
+
+            foreach ( var value  in metrics)
+            {
+               if (value.Id>= fromPage && value.Id<=toPage) 
+                    { 
+                      list.Add(value);
+                    }
+            }
+            return Ok(list);
+        }
+
+        [HttpGet("name/{name}")]
+          public IActionResult GetFirstName([FromRoute] string name)
+        {
+            int index=-1;
+            var searchingName =name.GetHashCode();
+            var metrics =   _personManager.GetItems();
+            foreach ( var item in metrics)
+            {
+                if (item.FirstName.GetHashCode() ==searchingName) index = item.Id;
+            }
+
+             if (index==-1) return Ok( "There is no such name!" );
+             var result = _personManager.GetItem(index);
+             return Ok(result);
+            
+        }
+
+        [HttpPost("create")]
          public IActionResult Create([FromBody] PersonCreateRequest value)
         {
             var id = _personManager.Create(value);
@@ -44,7 +86,7 @@ namespace MyTimeSheets.Controllers
             return Ok(id);
         }
 
-          [HttpPut("update/{id}")]
+        [HttpPut("update/{id}")]
         public  IActionResult Update([FromRoute] int id, [FromBody]  PersonCreateRequest value)
         {
             _personManager.Update(id,value);

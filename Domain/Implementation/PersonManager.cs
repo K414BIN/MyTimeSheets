@@ -55,12 +55,13 @@ namespace MyTimeSheets.Domain.Implementation
                 Company =item.Company,
                 Age =   item.Age
              };
-                   _personRepo.Update( result);
+          _personRepo.Update( result);
         }
 
         void IPersonManager.Delete(int id)
         {
-            throw new NotImplementedException();
+            _personRepo.Delete(id);
+            
         }
     }
     
