@@ -22,17 +22,22 @@ namespace MyTimeSheets.Controllers
         {
             _personManager = personManager ;
         }
-
-        
+          
         [HttpGet]
         public IActionResult GetAll()
         { 
           var result = _personManager.GetItems();
          return Ok(result);
         }
-                
+        /// <summary>
+        ///  У меня вот этот метод запрашивает вместо одно параметра id, требует почему-то два Id:
+        ///  один строковый, а другой  числовой. Я не понял почему...
+        ///  </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// 
         [HttpGet("{id}")]
-        public IActionResult Get([FromQuery] int id)
+        public IActionResult GetOne([FromQuery] int id)
         { 
            var result = _personManager.GetItem(id);
          return Ok(result);

@@ -87,7 +87,8 @@ namespace MyTimeSheets.Data.Implementation
 
         Person IRepository<Person>.GetOne(int ID)
         {
-            return Sheets.FirstOrDefault( x => x.Id==ID);
+              var result = Sheets.FirstOrDefault( x => x.Id==ID);
+              return result;
         }
 
         void IRepository<Person>.Update(Person item)
