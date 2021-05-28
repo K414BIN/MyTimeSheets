@@ -67,6 +67,11 @@ namespace MyTimeSheets.Domain.Implementation
         {
            return  _personRepo.GetPages(fromPage,toPage);
         }
+
+        Person IPersonManager.GetFirstName(string name)
+        {
+           return  _personRepo.GetFirstName(name);
+        }
     }
     
 }

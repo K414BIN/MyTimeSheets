@@ -65,6 +65,24 @@ namespace MyTimeSheets.Data.Implementation
             new Person { Id = 49, FirstName = "Jenette", LastName = "Dejesus", Email = "adipiscing.Mauris.molestie@liberoduinec.ca", Company = "Lectus Justo Incorporated", Age = 56 },
             new Person { Id = 50, FirstName = "Ramona", LastName = "Gilliam", Email = "massa.Vestibulum@lectuspede.ca", Company = "Imperdiet Dictum LLP", Age = 24 },
                                                                                 };
+
+        public Person GetFirstName(string name)
+        {
+            int index=-1;
+            var searchingName =name.GetHashCode();
+            
+            foreach ( var item in Sheets)
+            {
+                if (item.FirstName.GetHashCode() ==searchingName) index = item.Id;
+            }
+
+              if (index!=-1) { 
+                                 var result =  Sheets.FirstOrDefault( x => x.Id==index);
+                                  return result; 
+                              }
+              else            return null;
+        }
+
         void IRepository<Person>.Add(Person item)
         {
              Sheets.Add(item);

@@ -53,17 +53,8 @@ namespace MyTimeSheets.Controllers
         [HttpGet("name/{name}")]
           public IActionResult GetFirstName([FromRoute] string name)
         {
-            int index=-1;
-            var searchingName =name.GetHashCode();
-            var values =   _personManager.GetItems();
-            foreach ( var item in values)
-            {
-                if (item.FirstName.GetHashCode() ==searchingName) index = item.Id;
-            }
-
-             if (index==-1) return Ok( "There is no such name!" );
-             var result = _personManager.GetItem(index);
-             return Ok(result);
+           var result = _personManager.GetFirstName(name);
+           return Ok(result);
             
         }
 
