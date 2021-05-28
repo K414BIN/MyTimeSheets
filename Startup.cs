@@ -11,7 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-
+using MyTimeSheets.Data.Implementation;
+using MyTimeSheets.Data.Interfaces;
+using MyTimeSheets.Domain.Implementation;
+using MyTimeSheets.Domain.Interfaces;
 
 namespace MyTimeSheets
 {
@@ -27,6 +30,8 @@ namespace MyTimeSheets
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IPersonRepo, PersonRepo>();
+            services.AddScoped<IPersonManager, PersonManager>();
             services.AddControllers();
              services.AddSwaggerGen( c =>
             {
