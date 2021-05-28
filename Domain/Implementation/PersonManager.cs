@@ -11,7 +11,7 @@ namespace MyTimeSheets.Domain.Implementation
 {
     public class PersonManager : IPersonManager
     {
-         private readonly IPersonRepo _personRepo;
+        private readonly IPersonRepo _personRepo;
 
         public  PersonManager ( IPersonRepo personRepo)
         {
@@ -61,7 +61,11 @@ namespace MyTimeSheets.Domain.Implementation
         void IPersonManager.Delete(int id)
         {
             _personRepo.Delete(id);
-            
+        }
+
+        IEnumerable<Person> IPersonManager.GetPages(int fromPage, int toPage)
+        {
+           return  _personRepo.GetPages(fromPage,toPage);
         }
     }
     

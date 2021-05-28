@@ -91,6 +91,28 @@ namespace MyTimeSheets.Data.Implementation
               return result;
         }
 
+        IEnumerable<Person> IPersonRepo.GetPages(int fromPage, int toPage)
+        {
+              if ( fromPage > toPage ) 
+                {
+                   int swap  = toPage;
+                      toPage =fromPage;
+                      fromPage = swap;
+                }
+
+            var list = new List<Person>();
+
+            foreach ( var value  in Sheets)
+            {
+               if (value.Id>= fromPage && value.Id<=toPage) 
+                    { 
+                      list.Add(value);
+                    }
+            }
+            var result = list.ToArray();
+            return result;
+        }
+
         void IRepository<Person>.Update(Person item)
         {
              var updateDataPerson=Sheets.FirstOrDefault( y => y.Id==item.Id);

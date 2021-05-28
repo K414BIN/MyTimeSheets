@@ -9,7 +9,7 @@ namespace MyTimeSheets.Domain.Interfaces
 {
     public interface IPersonManager
     {
-        
+        IEnumerable<Person>  GetPages( int fromPage, int toPage);
         Person GetItem(int id);
         IEnumerable<Person> GetItems();
         int Create(PersonCreateRequest item);

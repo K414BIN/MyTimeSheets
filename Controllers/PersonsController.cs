@@ -45,24 +45,8 @@ namespace MyTimeSheets.Controllers
       
         [HttpGet("from/{fromPage}/to/{toPage}")]
         public IActionResult GetPages([FromRoute] int fromPage, [FromRoute] int toPage)
-        {
-            var list = new List<Person>();
-            var metrics =   _personManager.GetItems();
-
-            if ( fromPage > toPage ) 
-                {
-                   int swap  = toPage;
-                      toPage =fromPage;
-                      fromPage = swap;
-                }
-
-            foreach ( var value  in metrics)
-            {
-               if (value.Id>= fromPage && value.Id<=toPage) 
-                    { 
-                      list.Add(value);
-                    }
-            }
+        {   
+            var list = _personManager.GetPages(fromPage,toPage);
             return Ok(list);
         }
 
@@ -71,8 +55,8 @@ namespace MyTimeSheets.Controllers
         {
             int index=-1;
             var searchingName =name.GetHashCode();
-            var metrics =   _personManager.GetItems();
-            foreach ( var item in metrics)
+            var values =   _personManager.GetItems();
+            foreach ( var item in values)
             {
                 if (item.FirstName.GetHashCode() ==searchingName) index = item.Id;
             }
